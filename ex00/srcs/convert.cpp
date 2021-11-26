@@ -147,11 +147,11 @@ void Conv::printConv()
         if (checkValidC())
             std::cout << "char: '" << this->_argC << "'" << std::endl;
         else
-            std::cout << "char: Non displayable" << std::endl;    
+            std::cout << "char: Non displayable" << std::endl;
         if (checkValidI())
             std::cout << "int: " << this->_argI << std::endl;
         else
-            std::cout << "int: Out of limits" << std::endl;    
+            std::cout << "int: Out of limits" << std::endl;  
         if (checkValidF())
         {
             std::cout << "float: ";
