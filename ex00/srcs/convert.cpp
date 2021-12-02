@@ -122,18 +122,18 @@ int Conv::isConstant()
         std::cout << "int: Impossible" << std::endl;
         if (this->_argD != this->_argD)
         {
-            std::cout << "float: nanf" << std::endl;
-            std::cout << "double: nan" << std::endl;
+            std::cout << "float: " << _argF << "f" << std::endl;
+            std::cout << "double: " << _argD << std::endl;
         }
         else if (this->_argF == INFINITY)
         {
-            std::cout << "float: + inff" << std::endl;
-            std::cout << "double: + inf" << std::endl;
+            std::cout << "float: " << _argF << "f" << std::endl;
+            std::cout << "double: " << _argD <<std::endl;
         }
         else
         {
-            std::cout << "float: -inff" << std::endl;
-            std::cout << "double: -inf" << std::endl;
+            std::cout << "float: " << _argF << "f" << std::endl;
+            std::cout << "double: " << _argD << std::endl;
         }
         return 1;
     }

@@ -13,6 +13,8 @@ Data* deserialize(uintptr_t raw)
 std::ostream & operator<<(std::ostream & o, Data const & rhs)
 {
     o << &rhs << std::endl;
+    std::cout << "----------    overloaded operator<<    ----------" << std::endl;
+    std::cout << "----------    var from data struct     ----------" << std::endl;
     o << rhs.a << std::endl;
     o << rhs.b << std::endl;
     o << rhs.c << std::endl;
@@ -20,6 +22,7 @@ std::ostream & operator<<(std::ostream & o, Data const & rhs)
     o << rhs.e << std::endl;
     o << rhs.f << std::endl;
     o << rhs.ptdr << std::endl;
+    std::cout << "-------------------------------------------------" << std::endl;
     return o;
 }
 

@@ -15,7 +15,7 @@ int main( void )
     ptr.f[0] = &d1;
     ptr.f[1] = &d2;
     ptr.ptdr = NULL;
-    std::cout << "******** address of Data ptr ********" << std::endl;
+    std::cout << "**********      address of Data ptr      **********" << std::endl;
     std::cout << ptr << std::endl;
     std::cout << "******** address returned by deserialize ********" << std::endl;
     std::cout << *deserialize(serialize(&ptr)) << std::endl;
