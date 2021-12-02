@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <exception>
+#include <cerrno>
 
 class   Base
 {

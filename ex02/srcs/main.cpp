@@ -6,27 +6,17 @@ int main(void)
     for (int i = 0; i < 10; i++)
     {
         Base * gen = generate();
-        Base & genRef = *gen;
-        std::cout << "[ " << gen << " ]"<< std::endl;
+        Base& genRef = *gen;
+        std::cout << ">>>>>>>>>>    [ " << gen << " ]    <<<<<<<<<<" << std::endl;
         std::cout << "********** explicit downcast -> ptr **********" << std::endl;
-        try
-        {
-            identify(gen);
-        }
-        catch(const std::exception& e)
-        {
-            std::cout << e.what() << std::endl;
-        }
+        std::cout << ">>>>>>>>>>           *gen           <<<<<<<<<< : [ " << *gen << " ]" << std::endl;
+        std::cout << "___________________________________________________________________" << std::endl;
+        identify(gen);
         std::cout << "********** explicit downcast -> ref **********" << std::endl;
-        try
-        {
-            identify(genRef);
-        }
-        catch(const std::exception& e)
-        {
-            std::cout << e.what() << std::endl;
-        }
+        std::cout << ">>>>>>>>>>          genRef          <<<<<<<<<< : [ " << genRef << " ]" << std::endl;
+        std::cout << "___________________________________________________________________" << std::endl;
+        identify(genRef);
         std::cout << std::endl;
         delete gen ;
     }
-}
+} 
