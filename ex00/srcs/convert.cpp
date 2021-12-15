@@ -1,30 +1,37 @@
 #include "convert.hpp"
 
-Conv::Conv( void ) : _arg(0), _argC(0), _argI(0), _argF(0), _argD(0)
+Conv::Conv( void ) : _arg("")
 {
+    std::cout << "constructor by default called" << std::endl;
+    whichType();
 }
 
 Conv::Conv( char* const arg ) : _arg(arg)
 {
+    std::cout << "constructor called" << std::endl;
     whichType();
 }
 
-Conv::Conv( Conv const & rhs ) : _arg(rhs._arg), _argC(rhs._argC), _argI(rhs._argI), _argF(rhs._argF), _argD(rhs._argD)
+Conv::Conv( Conv const & rhs ) : _arg(rhs._arg)
 {
+    std::cout << "constructor by copy called" << std::endl;
+    whichType();
 }
 
 Conv const Conv::operator=(Conv const & rhs)
 {
-    return rhs;
+    new (this) Conv(rhs);
+    return *this;
 }
 
 Conv::~Conv( void )
 {
+    std::cout << "destructor called" << std::endl;
 }
 
 bool Conv::isChar()
 {
-    if (std::strlen(this->_arg) == 1 && this->_arg[0] <= '0' and this->_arg[0] >= '9')
+    if (std::strlen(this->_arg) == 1 && this->_arg[0] <= 127 and this->_arg[0] >= 32)
         return 1;
     return 0;
 }
@@ -61,24 +68,28 @@ void Conv::whichType()
 {
     if (this->isInt() == 1)
     {
-        this->_argC = static_cast<char>(std::atoi(this->_arg));  
-        this->_argI = std::atoi(this->_arg);
-        this->_argF = static_cast<float>(std::atoi(this->_arg));
-        this->_argD = this->_argF;
+        std:: cout << "\nis int\n" << std::endl;
+        _argC = static_cast<char>(std::atoi(_arg));  
+        _argI = std::atoi(_arg);
+        _argF = std::atof(_arg);
+        _argD = _argF;
     }
-    else if (this->isChar() == 1)
+    else if (isChar() == 1)
     {
-        this->_argC = this->_arg[0];
-        this->_argI = static_cast<int>(this->_arg[0]);
-        this->_argF = static_cast<float>(this->_argI);
-        this->_argD = static_cast<double>(this->_argF);
+        std::cout << "\nis char\n";
+        _argC = _arg[0];
+        _argI = _argC;
+        _argF = static_cast<float>(std::atof(_arg));
+        _argD = std::atof(_arg);
+        std:: cout << _argF << std::endl;
     }
     else
     {
-        this->_argC = static_cast<char>(std::atof(this->_arg));
-        this->_argI = static_cast<int>(std::atof(this->_arg));
-        this->_argF = std::atof(this->_arg);
-        this->_argD = std::atof(this->_arg);
+        std:: cout << "\nis double float\n" << std::endl;
+        _argC = static_cast<char>(std::atof(_arg));
+        _argI = static_cast<int>(std::atof(_arg));
+        _argF = std::atof(_arg);
+        _argD = _argF;
     }
 }
 
@@ -100,7 +111,7 @@ int Conv::checkValidI()
 
 int Conv::checkValidF()
 {
-    if (this->_argF >= FLT_MIN and this->_argF <= FLT_MAX)
+    if (this->_argF >= -FLT_MAX and this->_argF <= FLT_MAX)
         return 1;
     std::cout << "Impossible" << std::endl;
     return 0;
@@ -108,7 +119,7 @@ int Conv::checkValidF()
 
 int Conv::checkValidD()
 {
-    if (this->_argD >= DBL_MIN and this->_argD <= DBL_MAX)
+    if (this->_argD >= -DBL_MAX and this->_argD <= DBL_MAX)
         return 1;
     std::cout << "Impossible" << std::endl;
     return 0;
@@ -122,8 +133,8 @@ int Conv::isConstant()
         std::cout << "int: Impossible" << std::endl;
         if (this->_argD != this->_argD)
         {
-            std::cout << "float: " << _argF << "f" << std::endl;
-            std::cout << "double: " << _argD << std::endl;
+            std::cout << "float: " << "nanf" << std::endl;
+            std::cout << "double: " << "nan" << std::endl;
         }
         else if (this->_argF == INFINITY)
         {
@@ -157,8 +168,9 @@ void Conv::printConv()
             std::cout << "float: ";
             if (this->_argI != this->_argF)
             {
-                std::cout.unsetf ( std::ios::floatfield );
-                std::cout.precision(std::strlen(this->_arg));
+                // std::cout.unsetf ( std::ios::floatfield );
+                // if (std::strchr(_arg, '.'))
+                // std::cout.precision(std::strlen(std::strchr(_arg, '.')));
                 std::cout << this->_argF;
                 std::cout << "f" << std::endl;
             }
@@ -172,13 +184,14 @@ void Conv::printConv()
             std::cout << "double: ";
             if (this->_argI != this->_argF)
             {
-                std::cout.precision(std::strlen(this->_arg));
+                // if (std::strchr(_arg, '.'))
+                // std::cout.precision(std::strlen(std::strchr(_arg, '.')));
                 std::cout << this->_argD;
                 std::cout << std::endl;
             }
             else
             {
-                for (size_t i = 0; i < std::strlen(this->_arg) - 1; i++)
+                for (size_t i = 0; i < std::strlen(this->_arg); i++)
                     std::cout << this->_arg[i];
                 std::cout << std::endl;
             }
