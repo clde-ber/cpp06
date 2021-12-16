@@ -93,9 +93,9 @@ void Conv::whichType()
     if (isChar())
     {
         _argC = _arg[0];
-        _argI = static_cast<int>(std::strtod(_arg, NULL));
-        _argF = static_cast<float>(std::strtod(_arg, NULL));
-        _argD = std::strtod(_arg, NULL);
+        _argI = static_cast<int>(_argC);
+        _argF = static_cast<float>(_argC);
+        _argD = static_cast<double>(_argC);
     }
     else
     {
@@ -110,7 +110,7 @@ void Conv::whichType()
 
 bool Conv::checkValidC()
 {
-    if (this->_argC >= 32 and this->_argC <= 127)
+    if ((this->_argC >= 32 and this->_argC < 127))
         return 1;
     return 0;
 }
@@ -157,7 +157,7 @@ void Conv::printChar()
 
 void Conv::printInt()
 {
-    if (checkValidI() and !isChar())
+    if (checkValidI())
         std::cout << "int: " << this->_argI << std::endl;
     else
         std::cout << "int: impossible" << std::endl; 
@@ -165,7 +165,7 @@ void Conv::printInt()
 
 void Conv::printFloat()
 {
-    if (checkValidF() and !isChar())
+    if (checkValidF())
     {
         std::cout << "float: ";
         if (_argF - _argI == 0)
@@ -181,7 +181,7 @@ void Conv::printFloat()
 
 void Conv::printDouble()
 {
-    if (checkValidD() and !isChar())
+    if (checkValidD())
     {
         std::cout << "double: ";
         if (_argD - _argI == 0)

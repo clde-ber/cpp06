@@ -11,25 +11,8 @@ std::ostream & operator<<(std::ostream & o, Base const & rhs)
 }
 
 /*
-**  Base : orthodox canonical from
+**  Base -
 */
-
-Base::Base()
-{
-
-}
-
-Base::Base(Base const& rhs)
-{
-    (void)rhs;
-    new (this) Base();
-}
-
-Base const & Base::operator=(Base const & rhs)
-{
-    new (this) Base(rhs);
-    return *this;
-}
 
 Base::~Base()
 {
@@ -118,81 +101,68 @@ C::~C()
 **  Base class methods
 */
 
-void Base::identify(Base * p)
+void identify(Base * p)
 {
     Base * tmp(p);
     tmp = dynamic_cast<A *>(tmp);
     if (tmp)
     {
         p = dynamic_cast<A *>(p);
-        std::cout << ">>>>>>>>>>            A             <<<<<<<<<<" << std::endl;
+        std::cout << "A" << std::endl;
         return ;
     }
-    else
-        std::cout << "/!\\ impossible cast /!\\" << std::endl;
     tmp = p;
     tmp = dynamic_cast<B *>(tmp);
     if (tmp)
     {
         p = dynamic_cast<B *>(p);
-        std::cout << ">>>>>>>>>>            B             <<<<<<<<<<" << std::endl;
+        std::cout << "B" << std::endl;
         return ;
     }
-    else
-        std::cout << "/!\\ impossible cast /!\\" << std::endl;
     tmp = p;
     tmp = dynamic_cast<C *>(tmp);
     if (tmp)
     {
         p = dynamic_cast<C *>(p);
-        std::cout << ">>>>>>>>>>            C             <<<<<<<<<<" << std::endl;
+        std::cout << "C" << std::endl;
         return ;
     }
-    else
-        std::cout << "/!\\ impossible cast /!\\" << std::endl;
+    std::cout << "impossible cast" << std::endl;
 }
 
-void Base::identify( Base & p)
+void identify( Base & p)
 {
-    std::string error("");
-
     try
     {
         p = dynamic_cast<A &>(p);
-        std::cout << ">>>>>>>>>>            A             <<<<<<<<<<" << std::endl;
+        std::cout << "A" << std::endl;
         return ;
     }
     catch(std::exception &e)
     {
-        error += e.what();
-        error += '\n';
+        try
+        {
+            p = dynamic_cast<B &>(p);
+            std::cout << "B" << std::endl;
+            return ;
+        }
+        catch(std::exception &e)
+        {
+            try
+            {
+                p = dynamic_cast<C &>(p);
+                std::cout << "C" << std::endl;
+                return ;
+            }
+            catch(std::exception &e)
+            {
+                std::cout << e.what() << std::endl;
+            }
+        }
     }
-    try
-    {
-        p = dynamic_cast<B &>(p);
-        std::cout << ">>>>>>>>>>            B             <<<<<<<<<<" << std::endl;
-        return ;
-    }
-    catch(std::exception &e)
-    {
-        error += e.what();
-        error += '\n';
-    }
-    try
-    {
-        p = dynamic_cast<C &>(p);
-        std::cout << ">>>>>>>>>>            C             <<<<<<<<<<" << std::endl;
-        return ;
-    }
-    catch(std::exception &e)
-    {
-        error += e.what();
-        error += '\n';
-    }
-    std::cout << error << std::endl;
 }
 
-Base * Base::generate(void)
+Base * generate(void)
 {
     Base * ptr(0);
     int rand(0);
@@ -200,15 +170,12 @@ Base * Base::generate(void)
     switch ((rand = std::rand()) % 3)
     {
         case 0:
-            std::cout << ">>>>>>>>>>           rand           <<<<<<<<<< : " << rand << std::endl;
             ptr = new A();
             break ;
         case 1:
-            std::cout << ">>>>>>>>>>           rand           <<<<<<<<<< : " << rand << std::endl;
             ptr = new B();
             break ;
         default:
-            std::cout << ">>>>>>>>>>           rand           <<<<<<<<<< : " << rand << std::endl;
             ptr = new C();
             break ;
     }

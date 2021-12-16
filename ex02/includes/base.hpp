@@ -9,13 +9,7 @@
 class   Base
 {
     public :
-        Base();
-        Base(Base const& rhs);
-        Base const & operator=(Base const & rhs);
         virtual ~Base();
-        Base * generate(void);
-        void identify(Base * p);
-        void identify( Base & p);
 };
 
 class   A : public Base
@@ -45,6 +39,9 @@ class   C : public Base
         ~C();
 };
 
+Base * generate(void);
+void identify(Base * p);
+void identify( Base & p);
 std::ostream & operator<<(std::ostream & o, Base const & rhs);
 
 #endif
