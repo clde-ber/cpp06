@@ -7,6 +7,7 @@ int main(int ac, char **av)
         std:: cout << "please provide one argument [ char ] or [ int ] or [ float ] or [ double ]" << std::endl;
         return 1;
     }
+    errno = 0;
     try
     {
         Conv toConvert(av[1]);

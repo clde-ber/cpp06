@@ -11,6 +11,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <exception>
+#include <cerrno>
 
 class Conv
 {

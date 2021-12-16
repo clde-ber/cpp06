@@ -97,16 +97,16 @@ void Conv::whichType()
     if (isChar())
     {
         _argC = _arg[0];
-        _argI = static_cast<int>(std::atof(_arg));
-        _argF = static_cast<float>(std::atof(_arg));
-        _argD = std::atof(_arg);
+        _argI = static_cast<int>(std::strtod(_arg, NULL));
+        _argF = static_cast<float>(std::strtod(_arg, NULL));
+        _argD = std::strtod(_arg, NULL);
     }
     else if (isInt() or isFloat() or isDouble())
     {
-        _argC = static_cast<char>(std::atof(_arg));
-        _argI = static_cast<int>(std::atof(_arg));
-        _argF = static_cast<float>(std::atof(_arg));
-        _argD = std::atof(_arg);
+        _argC = static_cast<char>(std::strtod(_arg, NULL));
+        _argI = static_cast<int>(std::strtod(_arg, NULL));
+        _argF = static_cast<float>(std::strtod(_arg, NULL));
+        _argD = std::strtod(_arg, NULL);
     }
     else
         throw IncorrectTypeException();
@@ -116,37 +116,33 @@ bool Conv::checkValidC()
 {
     if (this->_argC >= 32 and this->_argC <= 127)
         return 1;
-    std::cout << "Non displayable" << std::endl;
     return 0;
 }
 
 bool Conv::checkValidI()
 {
-    if (this->_argI >= INT_MIN and this->_argI <= INT_MAX)
+    if (this->_argD >= INT_MIN and this->_argD <= INT_MAX)
         return 1;
-    std::cout << "Impossible" << std::endl;
     return 0;
 }
 
 bool Conv::checkValidF()
 {
-    if (this->_argF >= -FLT_MAX and this->_argF <= FLT_MAX)
+    if (this->_argD >= -FLT_MAX and this->_argD <= FLT_MAX)
         return 1;
-    std::cout << "Impossible" << std::endl;
     return 0;
 }
 
 bool Conv::checkValidD()
 {
-    if (this->_argD >= -DBL_MAX and this->_argD <= DBL_MAX)
+    if (errno != ERANGE)
         return 1;
-    std::cout << "Impossible" << std::endl;
     return 0;
 }
 
 bool Conv::isConstant()
 {
-    if (this->_argD != this->_argD or this->_argF == INFINITY or -this->_argF == INFINITY)
+    if (checkValidF() and checkValidD() and (this->_argD != this->_argD or this->_argF == INFINITY or -this->_argF == INFINITY))
     {
         std::cout << "char: Impossible" << std::endl;
         std::cout << "int: Impossible" << std::endl;
