@@ -10,6 +10,7 @@
 #include <cctype>
 #include <cstring>
 #include <cstdlib>
+#include <exception>
 
 class Conv
 {
@@ -19,6 +20,7 @@ class Conv
         int _argI;
         float _argF;
         double _argD;
+
         bool isInt();
         bool isChar();
         bool isFloat();
@@ -29,6 +31,15 @@ class Conv
         int checkValidF();
         int checkValidD();
         int isConstant();
+        void printChar();
+        void printInt();
+        void printFloat();
+        void printDouble();
+        class IncorrectTypeException : public std::exception
+        {
+            public:
+                virtual const char* what() const throw();
+        };
     public:
         Conv( void );
         Conv( char* const arg );
