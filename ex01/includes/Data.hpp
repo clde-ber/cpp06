@@ -15,11 +15,10 @@ typedef struct Data
     std::string e;
     double* f[2];
     void* ptdr;
-    Data const & operator=(Data const & rhs);
 }             Data;
 
-uintptr_t serialize(Data* ptr); //Cette fonction retour-nera le paramètre sous la forme d’un nombre entier
-Data* deserialize(uintptr_t raw); // Cette fonction ren-voie les données brutes que vous avez créées à l’aide de la fonction"serialize"à unestructureData
+uintptr_t serialize(Data* ptr);
+Data* deserialize(uintptr_t raw);
 std::ostream & operator<<(std::ostream & o, Data const & rhs);
 
 #endif

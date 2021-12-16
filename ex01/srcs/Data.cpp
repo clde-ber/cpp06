@@ -25,8 +25,3 @@ std::ostream & operator<<(std::ostream & o, Data const & rhs)
     std::cout << "-------------------------------------------------" << std::endl;
     return o;
 }
-
-Data const & Data::operator=(Data const & rhs)
-{
-    return rhs;
-}

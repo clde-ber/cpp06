@@ -26,11 +26,11 @@ class Conv
         bool isFloat();
         bool isDouble();
         void whichType();
-        int checkValidC();
-        int checkValidI();
-        int checkValidF();
-        int checkValidD();
-        int isConstant();
+        bool checkValidC();
+        bool checkValidI();
+        bool checkValidF();
+        bool checkValidD();
+        bool isConstant();
         void printChar();
         void printInt();
         void printFloat();

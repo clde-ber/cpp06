@@ -112,7 +112,7 @@ void Conv::whichType()
         throw IncorrectTypeException();
 }
 
-int Conv::checkValidC()
+bool Conv::checkValidC()
 {
     if (this->_argC >= 32 and this->_argC <= 127)
         return 1;
@@ -120,7 +120,7 @@ int Conv::checkValidC()
     return 0;
 }
 
-int Conv::checkValidI()
+bool Conv::checkValidI()
 {
     if (this->_argI >= INT_MIN and this->_argI <= INT_MAX)
         return 1;
@@ -128,7 +128,7 @@ int Conv::checkValidI()
     return 0;
 }
 
-int Conv::checkValidF()
+bool Conv::checkValidF()
 {
     if (this->_argF >= -FLT_MAX and this->_argF <= FLT_MAX)
         return 1;
@@ -136,7 +136,7 @@ int Conv::checkValidF()
     return 0;
 }
 
-int Conv::checkValidD()
+bool Conv::checkValidD()
 {
     if (this->_argD >= -DBL_MAX and this->_argD <= DBL_MAX)
         return 1;
@@ -144,7 +144,7 @@ int Conv::checkValidD()
     return 0;
 }
 
-int Conv::isConstant()
+bool Conv::isConstant()
 {
     if (this->_argD != this->_argD or this->_argF == INFINITY or -this->_argF == INFINITY)
     {
