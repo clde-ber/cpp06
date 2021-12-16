@@ -31,7 +31,8 @@ Conv::~Conv( void )
 
 bool Conv::isChar()
 {
-    if (std::strlen(this->_arg) == 1 && this->_arg[0] <= 127 and this->_arg[0] >= 32)
+    if (std::strlen(this->_arg) == 1 && this->_arg[0] <= 127 and this->_arg[0] >= 32
+    and (!(this->_arg[0] >= '0' and this->_arg[0] <= '9')))
         return 1;
     return 0;
 }
@@ -66,30 +67,19 @@ bool Conv::isFloat()
 
 void Conv::whichType()
 {
-    if (this->isInt() == 1)
+    if (isChar())
     {
-        std:: cout << "\nis int\n" << std::endl;
-        _argC = static_cast<char>(std::atoi(_arg));  
-        _argI = std::atoi(_arg);
-        _argF = std::atof(_arg);
-        _argD = _argF;
-    }
-    else if (isChar() == 1)
-    {
-        std::cout << "\nis char\n";
         _argC = _arg[0];
-        _argI = _argC;
+        _argI = static_cast<int>(std::atof(_arg));
         _argF = static_cast<float>(std::atof(_arg));
         _argD = std::atof(_arg);
-        std:: cout << _argF << std::endl;
     }
     else
     {
-        std:: cout << "\nis double float\n" << std::endl;
         _argC = static_cast<char>(std::atof(_arg));
         _argI = static_cast<int>(std::atof(_arg));
-        _argF = std::atof(_arg);
-        _argD = _argF;
+        _argF = static_cast<float>(std::atof(_arg));
+        _argD = std::atof(_arg);
     }
 }
 
@@ -159,44 +149,39 @@ void Conv::printConv()
             std::cout << "char: '" << this->_argC << "'" << std::endl;
         else
             std::cout << "char: Non displayable" << std::endl;
-        if (checkValidI())
+        if (checkValidI() and !isChar())
             std::cout << "int: " << this->_argI << std::endl;
         else
-            std::cout << "int: Out of limits" << std::endl;  
-        if (checkValidF())
+            std::cout << "int: impossible" << std::endl;  
+        if (checkValidF() and !isChar())
         {
-            std::cout << "float: ";
-            if (this->_argI != this->_argF)
-            {
-                // std::cout.unsetf ( std::ios::floatfield );
-                // if (std::strchr(_arg, '.'))
-                // std::cout.precision(std::strlen(std::strchr(_arg, '.')));
-                std::cout << this->_argF;
+            std::cout << "float: " << _arg;
+            if (!(std::strchr(_arg, '.')))
+                std::cout << ".0f" << std::endl;
+            else if (!isFloat())
                 std::cout << "f" << std::endl;
-            }
             else
-                std::cout << this->_arg << std::endl; 
+                std::cout << std::endl;
         }
         else
-            std::cout << "float: Out of limits" << std::endl;    
-        if (checkValidD())
+            std::cout << "float: impossible" << std::endl;    
+        if (checkValidD() and !isChar())
         {
+
             std::cout << "double: ";
-            if (this->_argI != this->_argF)
+            if (isFloat())
             {
-                // if (std::strchr(_arg, '.'))
-                // std::cout.precision(std::strlen(std::strchr(_arg, '.')));
-                std::cout << this->_argD;
-                std::cout << std::endl;
-            }
-            else
-            {
-                for (size_t i = 0; i < std::strlen(this->_arg); i++)
+                for (unsigned long i = 0; i < std::strlen(_arg) - 1; i++)
                     std::cout << this->_arg[i];
                 std::cout << std::endl;
             }
+            else if (!(std::strchr(_arg, '.')))
+                std::cout << _arg << ".0" << std::endl;
+            else
+                std::cout << _arg << std::endl;
+            
         }
         else
-            std::cout << "double: Out of limits" << std::endl;    
+            std::cout << "double: impossible" << std::endl;    
     }
 }
