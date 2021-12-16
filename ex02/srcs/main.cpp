@@ -3,6 +3,7 @@
 int main(void)
 {
     Base obj;
+    
     std::srand(std::time(0));
     for (int i = 0; i < 10; i++)
     {
@@ -22,4 +23,6 @@ int main(void)
         std::cout << std::endl;
         delete gen ;
     }
+    obj.identify(&obj);
+    obj.identify(obj);
 } 

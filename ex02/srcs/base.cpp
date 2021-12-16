@@ -128,6 +128,8 @@ void Base::identify(Base * p)
         std::cout << ">>>>>>>>>>            A             <<<<<<<<<<" << std::endl;
         return ;
     }
+    else
+        std::cout << "/!\\ impossible cast /!\\" << std::endl;
     tmp = p;
     tmp = dynamic_cast<B *>(tmp);
     if (tmp)
@@ -136,15 +138,18 @@ void Base::identify(Base * p)
         std::cout << ">>>>>>>>>>            B             <<<<<<<<<<" << std::endl;
         return ;
     }
+    else
+        std::cout << "/!\\ impossible cast /!\\" << std::endl;
     tmp = p;
     tmp = dynamic_cast<C *>(tmp);
-    if (p)
+    if (tmp)
     {
         p = dynamic_cast<C *>(p);
         std::cout << ">>>>>>>>>>            C             <<<<<<<<<<" << std::endl;
         return ;
     }
-    std::cout << "/!\\ impossible cast /!\\" << std::endl;
+    else
+        std::cout << "/!\\ impossible cast /!\\" << std::endl;
 }
 
 void Base::identify( Base & p)
@@ -160,6 +165,7 @@ void Base::identify( Base & p)
     catch(std::exception &e)
     {
         error += e.what();
+        error += '\n';
     }
     try
     {
@@ -170,6 +176,7 @@ void Base::identify( Base & p)
     catch(std::exception &e)
     {
         error += e.what();
+        error += '\n';
     }
     try
     {
@@ -180,6 +187,7 @@ void Base::identify( Base & p)
     catch(std::exception &e)
     {
         error += e.what();
+        error += '\n';
     }
     std::cout << error << std::endl;
 }
