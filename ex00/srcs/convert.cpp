@@ -2,32 +2,28 @@
 
 Conv::Conv( void ) : _arg("")
 {
-    std::cout << "constructor by default called" << std::endl;
     whichType();
 }
 
 Conv::Conv( char* const arg ) : _arg(arg)
 {
-    std::cout << "constructor called" << std::endl;
     whichType();
 }
 
 Conv::Conv( Conv const & rhs ) : _arg(rhs._arg)
 {
-    std::cout << "constructor by copy called" << std::endl;
     whichType();
 }
 
 Conv const Conv::operator=(Conv const & rhs)
 {
-    std::cout << "assignation operator called" << std::endl;
     new (this) Conv(rhs);
     return *this;
 }
 
 Conv::~Conv( void )
 {
-    std::cout << "destructor called" << std::endl;
+
 }
 
 const char* Conv::IncorrectTypeException::what() const throw()
@@ -45,7 +41,7 @@ bool Conv::isChar()
 
 bool Conv::isInt()
 {
-    size_t i(0);
+    size_t i = 0;
 
     if (this->_arg[i] == '-')
         i++;
@@ -60,7 +56,7 @@ bool Conv::isInt()
 
 bool Conv::isFloat()
 {
-    size_t i(0);
+    size_t i = 0;
 
     if (this->_arg[i] == '-')
         i++;
@@ -77,7 +73,7 @@ bool Conv::isFloat()
 
 bool Conv::isDouble()
 {
-    size_t i(0);
+    size_t i = 0;
 
     if (this->_arg[i] == '-')
         i++;
@@ -101,14 +97,14 @@ void Conv::whichType()
         _argF = static_cast<float>(std::strtod(_arg, NULL));
         _argD = std::strtod(_arg, NULL);
     }
-    else if (isInt() or isFloat() or isDouble())
+    else
     {
         _argC = static_cast<char>(std::strtod(_arg, NULL));
         _argI = static_cast<int>(std::strtod(_arg, NULL));
         _argF = static_cast<float>(std::strtod(_arg, NULL));
         _argD = std::strtod(_arg, NULL);
     }
-    else
+    if (!isConstant() and !isInt() and !isChar() and !isDouble()and !isFloat())
         throw IncorrectTypeException();
 }
 
@@ -128,41 +124,26 @@ bool Conv::checkValidI()
 
 bool Conv::checkValidF()
 {
-    if (this->_argD >= -FLT_MAX and this->_argD <= FLT_MAX)
+    if (_argD != 0.0 and _argD >= -FLT_MIN and _argD <= FLT_MIN)
+        return 0;
+    if (this->_argD >= -FLT_MAX and this->_argD <= FLT_MAX and checkValidD())
         return 1;
     return 0;
 }
 
 bool Conv::checkValidD()
 {
-    if (errno != ERANGE)
-        return 1;
-    return 0;
+    errno = 0;
+    std::strtod(_arg, NULL);
+    if (errno == ERANGE)
+        return 0;
+    return 1;
 }
 
 bool Conv::isConstant()
 {
-    if (checkValidF() and checkValidD() and (this->_argD != this->_argD or this->_argF == INFINITY or -this->_argF == INFINITY))
-    {
-        std::cout << "char: Impossible" << std::endl;
-        std::cout << "int: Impossible" << std::endl;
-        if (this->_argD != this->_argD)
-        {
-            std::cout << "float: " << "nanf" << std::endl;
-            std::cout << "double: " << "nan" << std::endl;
-        }
-        else if (this->_argF == INFINITY)
-        {
-            std::cout << "float: " << _argF << "f" << std::endl;
-            std::cout << "double: " << _argD <<std::endl;
-        }
-        else
-        {
-            std::cout << "float: " << _argF << "f" << std::endl;
-            std::cout << "double: " << _argD << std::endl;
-        }
+    if (this->_argD != this->_argD or this->_argF == INFINITY or -this->_argF == INFINITY)
         return 1;
-    }
     return 0;
 }
 
@@ -186,13 +167,13 @@ void Conv::printFloat()
 {
     if (checkValidF() and !isChar())
     {
-        std::cout << "float: " << _arg;
-        if (!(std::strchr(_arg, '.')))
-            std::cout << ".0f" << std::endl;
-        else if (!isFloat())
-            std::cout << "f" << std::endl;
+        std::cout << "float: ";
+        if (_argF - _argI == 0)
+        {
+            std::cout << _argF << ".0f" << std::endl;
+        }
         else
-            std::cout << std::endl;
+            std::cout << _argF << "f" << std::endl;
     }
     else
         std::cout << "float: impossible" << std::endl;  
@@ -203,16 +184,12 @@ void Conv::printDouble()
     if (checkValidD() and !isChar())
     {
         std::cout << "double: ";
-        if (isFloat())
+        if (_argD - _argI == 0)
         {
-            for (unsigned long i = 0; i < std::strlen(_arg) - 1; i++)
-                std::cout << this->_arg[i];
-            std::cout << std::endl;
+            std::cout << _argD << ".0" << std::endl;
         }
-        else if (!(std::strchr(_arg, '.')))
-            std::cout << _arg << ".0" << std::endl;
         else
-            std::cout << _arg << std::endl;  
+            std::cout << _argD << std::endl;
     }
     else
         std::cout << "double: impossible" << std::endl;
@@ -220,8 +197,28 @@ void Conv::printDouble()
 
 void Conv::printConv()
 {
-    if (!isConstant())
-    {   
+    if (isConstant())
+    {
+        std::cout << "char: Impossible" << std::endl;
+        std::cout << "int: Impossible" << std::endl;
+        if (this->_argD != this->_argD)
+        {
+            std::cout << "float: " << _argF << "f" << std::endl;
+            std::cout << "double: " << _argD << std::endl;
+        }
+        else if (this->_argF == INFINITY)
+        {
+            std::cout << "float: " << _argF << "f" << std::endl;
+            std::cout << "double: " << _argD <<std::endl;
+        }
+        else
+        {
+            std::cout << "float: " << _argF << "f" << std::endl;
+            std::cout << "double: " << _argD << std::endl;
+        }
+    }
+    else
+    {
         printChar();
         printInt();
         printFloat();
