@@ -110,7 +110,7 @@ void Conv::whichType()
 
 bool Conv::checkValidC()
 {
-    if ((this->_argC >= 32 and this->_argC < 127))
+    if ((this->_argI >= 32 and this->_argI < 127))
         return 1;
     return 0;
 }
