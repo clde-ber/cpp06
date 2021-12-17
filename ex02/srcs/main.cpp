@@ -13,9 +13,11 @@ int main(void)
         identify(*obj);
         std::cout << "identify (pointer)" << std::endl;
         identify(obj);
+        delete obj;
     }
     std::cout << "identify (ref)" << std::endl;
     identify(*test);
     std::cout << "identify (pointer)" << std::endl;
     identify(test);
+    delete test;
 } 

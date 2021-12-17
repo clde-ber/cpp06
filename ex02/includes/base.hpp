@@ -18,7 +18,7 @@ class   A : public Base
         A();
         A(A const & rhs);
         A const & operator=(A const & rhs);
-        ~A();
+        virtual ~A();
 };
 
 class   B : public Base
@@ -27,7 +27,7 @@ class   B : public Base
         B();
         B(B const & rhs);
         B const & operator=(B const & rhs);
-        ~B();
+        virtual ~B();
 };
 
 class   C : public Base
@@ -36,7 +36,7 @@ class   C : public Base
         C();
         C(C const & rhs);
         C const & operator=(C const & rhs);
-        ~C();
+        virtual ~C();
 };
 
 Base * generate(void);

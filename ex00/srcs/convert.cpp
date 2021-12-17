@@ -33,7 +33,7 @@ const char* Conv::IncorrectTypeException::what() const throw()
 
 bool Conv::isChar()
 {
-    if (std::strlen(this->_arg) == 1 && this->_arg[0] <= 127 and this->_arg[0] >= 32
+    if (std::strlen(this->_arg) == 1 && this->_arg[0] < 127 and this->_arg[0] >= 32
     and (!(this->_arg[0] >= '0' and this->_arg[0] <= '9')))
         return 1;
     return 0;
@@ -60,7 +60,7 @@ bool Conv::isFloat()
 
     if (this->_arg[i] == '-')
         i++;
-    while (i < std::strlen(this->_arg)- 1)
+    while (i < std::strlen(this->_arg) - 1)
     {
         if (!std::isdigit(this->_arg[i]) and _arg[i] != '.')
             return 0;
@@ -68,7 +68,7 @@ bool Conv::isFloat()
     }
     if (this->_arg[i] == 'f')
         return 1;
-    return 0;  
+    return 0;
 }
 
 bool Conv::isDouble()
@@ -77,7 +77,7 @@ bool Conv::isDouble()
 
     if (this->_arg[i] == '-')
         i++;
-    while (i < std::strlen(this->_arg)- 1)
+    while (i < std::strlen(this->_arg) - 1)
     {
         if (!std::isdigit(this->_arg[i]) and _arg[i] != '.')
             return 0;
